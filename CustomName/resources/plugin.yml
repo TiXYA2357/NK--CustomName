@@ -1,0 +1,13 @@
+name: CustomName
+main: TiXYA2357.Main
+description: "自定义玩家名称"
+author: TiXYA2357
+version: 1.1.4.1-End
+api: [1.0.0]
+load: STARTUP
+depend:
+  - OrmLite
+  - Tips
+
+softdepend:
+  - Title

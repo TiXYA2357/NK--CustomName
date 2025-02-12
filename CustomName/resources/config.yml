@@ -1,0 +1,13 @@
+前缀: §b自定义名称 §a>>> §7
+允许重命名: false
+Tips名称变量: "{CustomName}"
+Tips称号变量: "{CustomNameCH}"
+指令: rename
+#通过UI选择玩家执行时是否反馈命令输出
+命令输出反馈: true
+# @s 发送者, @p 接收者, @msg 消息
+私聊: "§b[私聊] §e@s §r§f->§e @p§r§f: §d@msg"
+#数组  &op 以OP身份执行,&con 以控制台身份执行,@p 玩家本身
+首次进服命令: []
+
+
