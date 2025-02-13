@@ -3,6 +3,8 @@
 Tips名称变量: "{CustomName}"
 Tips称号变量: "{CustomNameCH}"
 指令: rename
+#此处违禁字词使用|来隔开
+违禁词: TMD|tmd|NM|nm
 #通过UI选择玩家执行时是否反馈命令输出
 命令输出反馈: true
 # @s 发送者, @p 接收者, @msg 消息

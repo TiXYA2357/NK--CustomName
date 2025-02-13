@@ -2,8 +2,8 @@ package TiXYA2357;
 
 import TiXYA2357.DateBase.db.Sqlite;
 import cn.nukkit.Player;
-import org.title.TitleMain;
-import org.title.data.PlayerData;
+import org.sobadfish.title.TitleMain;
+import org.sobadfish.title.data.PlayerData;
 import tip.utils.Api;
 import tip.utils.variables.BaseVariable;
 

@@ -27,6 +27,7 @@ import static TiXYA2357.Command.Lib.*;
  * {@link TiXYA2357.DateBase}
  */
 public class Main extends PluginBase implements Listener {
+    private static Main instance;
     public static Plugin plugin;
     public static String ConfigPath;
     public static Server nks = Server.getInstance();
@@ -55,4 +56,6 @@ public class Main extends PluginBase implements Listener {
         QueryPlayerUID(p);
         onPlayerResDate(p);
     }
+
+    public static Main getInstance() {return instance;}
     }

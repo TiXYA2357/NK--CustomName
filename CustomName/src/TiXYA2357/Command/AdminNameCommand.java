@@ -10,7 +10,8 @@ import cn.nukkit.form.element.ElementLabel;
 import cn.nukkit.form.handler.FormResponseHandler;
 import cn.nukkit.form.window.FormWindowCustom;
 import cn.nukkit.form.window.FormWindowSimple;
-
+import cn.nukkit.utils.Config;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static TiXYA2357.Main.*;
@@ -152,18 +153,30 @@ public class AdminNameCommand extends Command {
         form_login_name(p,true);}
     public static void form_login_name(Player p,boolean is_login) {
         FormWindowCustom form = new FormWindowCustom("§d注册名字");
+        Config unfairWordConfig= new Config(ConfigPath + "/config.yml", Config.YAML);
+        String unfairWord = unfairWordConfig.getString("违禁词");
         form.addElement(new ElementInput("§d输入昵称(2~8个字)","确定后无法更改,请谨慎!"));
         if (!is_login) form.addElement(new ElementLabel("§c昵称不合法或重名" + ",请输入2~8个字符"));
         form.addHandler(FormResponseHandler.withoutPlayer(ignored -> {
             if (form.wasClosed()) return;
             String name = form.getResponse().getInputResponse(0);
-            if (isValidName(name) && !name.equals(" ")
-                    && !name.toLowerCase().equals("null")){
+            if (isValidName(name) && !name.equals(" ") && !name.toLowerCase().equals("null")){
                 if (QueryPlayerStrName(name)) {
-                    form_login_name(p,false);return;}
-                p.sendMessage(PT+"游戏名称设置成功: " + name);
-                 setPlayerStrName(p, name);
-                if (!AllowReName) setIsNameChange(p, true);
+                    form_login_name(p,false);return;
+                }
+                Pattern pattern = Pattern.compile(unfairWord);
+                Matcher matcher = pattern.matcher(name);
+                if(matcher.find()){
+                    String FinalName = name.replaceAll(unfairWord, "*");
+                    p.sendMessage(PT+"游戏名称设置成功: " + FinalName);
+                    p.sendMessage(PT+"您设置的名称中含有违禁词已被替换！");
+                    setPlayerStrName(p, name);
+                    if (!AllowReName) setIsNameChange(p, true);
+                }else {
+                    p.sendMessage(PT + "游戏名称设置成功: " + name);
+                    setPlayerStrName(p, name);
+                    if (!AllowReName) setIsNameChange(p, true);
+                }
             } else {
                 form_login_name(p,false); // 重新显示表单
             }
