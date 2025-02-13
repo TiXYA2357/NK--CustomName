@@ -187,6 +187,8 @@ public class AdminNameCommand extends Command {
         form_set_name(p,true);}
     public static void form_set_name(Player p,boolean is_set) {
         FormWindowCustom form = new FormWindowCustom("§d修改名字");
+        Config unfairWordConfig= new Config(ConfigPath + "/config.yml", Config.YAML);
+        String unfairWord = unfairWordConfig.getString("违禁词");
         form.addElement(new ElementInput("§e输入新昵称(2~8个字)"));
         form.addElement(new ElementDropdown("§d选择玩家", getPlayerStrNameList()));
         if (!is_set) form.addElement(new ElementLabel("§c昵称不合法或重名" + ",请输入2~8个字符"));
@@ -199,9 +201,19 @@ public class AdminNameCommand extends Command {
                     && !name.toLowerCase().equals("null")){
                 if (QueryPlayerStrName(name)) {
                     form_set_name(player,false);return;}
-                p.sendMessage(PT+"游戏名称设置成功: §f" + name);
-                setPlayerStrName(player, name);
-                if (!AllowReName) setIsNameChange(player, true);
+                Pattern pattern = Pattern.compile(unfairWord);
+                Matcher matcher = pattern.matcher(name);
+                if(matcher.find()){
+                    String FinalName = name.replaceAll(unfairWord, "*");
+                    p.sendMessage(PT+"游戏名称设置成功: §f" + FinalName);
+                    p.sendMessage(PT+"§f您为§a"+p.getName()+"§f设置的名称中含有违禁词已被替换！");
+                    setPlayerStrName(player, name);
+                    if (!AllowReName) setIsNameChange(p, true);
+                }else{
+                    p.sendMessage(PT+"游戏名称设置成功: §f" + name);
+                    setPlayerStrName(player, name);
+                    if (!AllowReName) setIsNameChange(player, true);
+                }
             } else {
                 form_set_name(player,false); // 重新显示表单
             }
